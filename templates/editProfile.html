@@ -14,9 +14,15 @@
     <form action="{{ url_for('profileChanges') }}" method="post" id="editProfile" enctype="multipart/form-data">
     </form>
 
+    {% if session["user_type"] == "mentor" %}
     <span class="profile-picture">
-      <img id="blah" src="{{ url_for('static', filename= session['pic']) }}" style="max-width: 100%;">
+      <img id="blah" src="/static/img/mentor_pic.png" style="max-width: 100%;">
     </span>
+    {%else%}
+    <span class="profile-picture">
+      <img id="blah" src="/static/img/mentee_pic.png" style="max-width: 100%;">
+    </span>
+    {% endif %}
 
     <div class="space space-4"></div>
 

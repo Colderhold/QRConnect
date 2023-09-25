@@ -58,7 +58,7 @@ a:focus {
     left: 0;
     height: 100vh;
     z-index: 999;
-    background: #ba5831;
+    background: #004c4c;
     color: #fff;
     transition: all 0.3s;
 }
@@ -69,7 +69,7 @@ a:focus {
 
 #sidebar .sidebar-header {
     padding: 20px;
-    background: #a64e2c;;
+    background: #004c4c;
 }
 
 #sidebar ul.components {
@@ -97,7 +97,7 @@ a:focus {
 #sidebar ul a,
 a[aria-expanded="true"] {
     color: #fff;
-    background: #ba5831;
+    background: #004c4c;
 }
 
 a[data-toggle="collapse"] {
