@@ -108,16 +108,23 @@ def registerUser():
         username = request.form.get("username")
         password = request.form.get("password")
         email = request.form.get("email")
-        phone = request.form.get("phone")
+        prn_num = request.form.get("")
+        branch = request.form.get("")
+        batch = request.form.get("")
+        linkedin_pro = request.form.get("")
+        class_incharge = request.form.get("")
+        aggregate_sgpa = request.form.get("")
+        achievements = request.form.get("")
+        internships = request.form.get("")
 
         cv_help = True if request.form.get("cvhelp") == "on" else False
         meetAlumni = True if request.form.get("meetAlumni") == "on" else False
         mockInterview = True if request.form.get("mockInterview") == "on" else False
 
-        new_mentee = Mentee(fname=fname, lname=lname, username=username, profile_pic= "arabsoc.png" , password=password, email=email, cv_help=cv_help, meetAlumni= meetAlumni, mockInterview=mockInterview)
+        new_mentee = Mentee(fname=fname, lname=lname, prn_num = "-", branch = "-", batch = "-",username=username, profile_pic= "arabsoc.png" , password=password, linkedin_pro = "-", class_incharge = '-', aggregate_sgpa = "0", achievements = "-", internships = "-",email=email, cv_help=cv_help, meetAlumni= meetAlumni, mockInterview=mockInterview)
         db.session.add(new_mentee)
         db.session.commit()
-        session.update({"username":username, "fname":fname, "lname":lname,"bio":"-", "pic":"img/arabsoc.png", "user_type":"mentee", "email":email, "cv_help":cv_help,"meetAlumni": meetAlumni, "mockInterview":mockInterview})
+        session.update({"username":username, "fname":fname, "lname":lname, 'prn_num': prn_num,"bio":"-", "pic":"img/arabsoc.png", "user_type":"mentee", "email":email, "branch": branch, "batch": batch, "linkedin_pro": linkedin_pro, "class_incharge": class_incharge, "aggregate_sgpa": aggregate_sgpa, "achievements": achievements, "internships": internships,"cv_help":cv_help,"meetAlumni": meetAlumni, "mockInterview":mockInterview})
 
     return redirect(url_for('mentorHome')) if mentorForm != None else redirect(url_for('menteeHome'))
 
@@ -164,20 +171,29 @@ def profileChanges():
         user_data = Mentee.query.filter_by(username=session.get("username")).one()
         user_data.meetAlumni = session["meetAlumni"] = True if request.form.get("meetAlumni") == "on" else False
         user_data.mockInterview = session["mockInterview"] = True if request.form.get("mockInterview") == "on" else False
+        
+        user_data.fname = session["fname"] = request.form.get("fname")
+        user_data.lname = session["lname"] = request.form.get("lname")
+        user_data.prn_num = session["prn_num"] = request.form.get("prn_num")
+        user_data.branch = session["branch"] = request.form.get("branch")
+        user_data.batch = session["batch"] = request.form.get("batch")
+        user_data.email = session["email"] = request.form.get("email")
+        user_data.linkedin_pro = session["linkedin_pro"] = request.form.get("linkedin_pro")
+        user_data.class_incharge = session["class_incharge"] = request.form.get("class_incharge")
+        user_data.aggregate_sgpa = session["aggregate_sgpa"] = request.form.get("aggregate_sgpa")
+        user_data.achievements = session["achievements"] = request.form.get("achievements")
+        user_data.internships = session["internships"] = request.form.get("internships")
 
     else:
         user_data = Mentor.query.filter_by(username=session.get("username")).one()
         user_data.meetStudents = session["meetStudents"] = True if request.form.get("meet_students") == "on" else False
         user_data.mockInterview = session["mockInterview"] = True if request.form.get("mockInterview2") == "on" else False
         user_data.workExp = session["workExp"] = True if request.form.get("workExp") == "on" else False
-
-    user_data.fname = session["fname"] = request.form.get("fname")
-    user_data.lname = session["lname"] = request.form.get("lname")
-    user_data.email = session["email"] = request.form.get("email")
-    user_data.job = session["job"] = request.form.get("job")
-    user_data.bio = session["bio"] = request.form.get("bio")
-    user_data.cv_help = session["cv_help"] = True if request.form.get("cvhelp2") == "on" else False
-
+    
+        user_data.job = session["job"] = request.form.get("job")
+        user_data.bio = session["bio"] = request.form.get("bio")
+        user_data.cv_help = session["cv_help"] = True if request.form.get("cvhelp2") == "on" else False
+        
     file = request.files['file'] #this gets the file
     if not file.filename == '':
         filename = secure_filename(file.filename)
@@ -187,7 +203,7 @@ def profileChanges():
         user_data.profile_pic = filename
         session["pic"] = "img/" + str(filename)
         flash("Profile picture has been uploaded")
-
+        
     db.session.commit()
     if session["bio"] == "":
         flash("Adding a bio will make your profile look good! (Changes of any other fields have been saved)")

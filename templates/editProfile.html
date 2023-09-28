@@ -45,14 +45,14 @@
         </div>
       </div>
 
-
-
+      
       <div class="profile-info-row">
         <div class="profile-info-name"> First Name </div>
         <div class="profile-info-value">
           <input type="text" form="editProfile" name="fname" class="form-control" value="{{session['fname']}}">
         </div>
       </div>
+
 
       <div class="profile-info-row">
         <div class="profile-info-name"> Last Name </div>
@@ -61,12 +61,78 @@
         </div>
       </div>
 
+
+      <div class="profile-info-row">
+        <div class="profile-info-name"> PRN No. </div>
+        <div class="profile-info-value">
+          <input type="text" form="editProfile" name="prn_num" class="form-control" value="{{session['prn_num']}}">
+        </div>
+      </div>
+
+
+      <div class="profile-info-row">
+        <div class="profile-info-name"> Branch </div>
+        <div class="profile-info-value">
+          <input type="text" form="editProfile" name="branch" class="form-control" value="{{session['branch']}}">
+        </div>
+      </div>
+
+
+      <div class="profile-info-row">
+        <div class="profile-info-name"> Batch </div>
+        <div class="profile-info-value">
+          <input type="text" form="editProfile" name="batch" class="form-control" value="{{session['batch']}}">
+        </div>
+      </div>
+
+
       <div class="profile-info-row">
         <div class="profile-info-name"> Email </div>
         <div class="profile-info-value">
           <input type="text" form="editProfile" name="email" class="form-control" value="{{session['email']}}">
         </div>
       </div>
+
+
+      <div class="profile-info-row">
+        <div class="profile-info-name"> LinkedIn Id </div>
+        <div class="profile-info-value">
+          <input type="text" form="editProfile" name="linkedin_pro" class="form-control" value="{{session['linkedin_pro']}}">
+        </div>
+      </div>
+
+
+      <div class="profile-info-row">
+        <div class="profile-info-name"> Class Incharge </div>
+        <div class="profile-info-value">
+          <input type="text" form="editProfile" name="class_incharge" class="form-control" value="{{session['class_incharge']}}">
+        </div>
+      </div>
+
+
+      <div class="profile-info-row">
+        <div class="profile-info-name"> Aggregate SGPA </div>
+        <div class="profile-info-value">
+          <input type="text" form="editProfile" name="aggregate_sgpa" class="form-control" value="{{session['aggregate_sgpa']}}">
+        </div>
+      </div>
+
+
+      <div class="profile-info-row">
+        <div class="profile-info-name"> Achievements </div>
+        <div class="profile-info-value">
+          <input type="text" form="editProfile" name="achievements" class="form-control" value="{{session['achievements']}}">
+        </div>
+      </div>
+
+
+      <div class="profile-info-row">
+        <div class="profile-info-name"> Internships (if any) </div>
+        <div class="profile-info-value">
+          <input type="text" form="editProfile" name="internships" class="form-control" value="{{session['internships']}}">
+        </div>
+      </div>
+
 
       <div class="profile-info-row">
         <div class="profile-info-name"> Job </div>
@@ -78,8 +144,6 @@
           {% endif %}
         </div>
       </div>
-
-
     </div>
 
 
