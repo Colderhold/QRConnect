@@ -7,6 +7,11 @@ import requests
 import secrets
 from models import *
 from werkzeug.utils import secure_filename
+from datetime import datetime
+import qrcode
+from flask import Flask, render_template, send_file
+from io import BytesIO
+import qrcode
 
 app = Flask(__name__)
 
@@ -57,9 +62,9 @@ def validateUser():
     if user_data_fetched:
         if password == user_data.password:
             file_path = "img/" + str(user_data.profile_pic)
-            session.update({"username":username, "fname":user_data.fname, "lname":user_data.lname,"user_type":user_type, "email":user_data.email, "pic":file_path, "cv_help":user_data.cv_help, "bio":user_data.bio ,"mockInterview":user_data.mockInterview })
+            session.update({"username":username, "fname":user_data.fname, "lname":user_data.lname,"user_type":user_type,"email":user_data.email, "pic":file_path, "cv_help":user_data.cv_help, "bio":user_data.bio ,"mockInterview":user_data.mockInterview })
             if user_type == "mentee":
-                session.update({"meetAlumni": user_data.meetAlumni })
+                session.update({"meetAlumni": user_data.meetAlumni, "prn_num":user_data.prn_num, "branch": user_data.branch, "batch": user_data.batch, "linkedin_pro": user_data.linkedin_pro, "class_incharge": user_data.class_incharge, "aggregate_sgpa": user_data.aggregate_sgpa, "achievements": user_data.achievements, "internships": user_data.internships})
                 return redirect(url_for('menteeHome'))
             else:
                 session.update({"job":user_data.job, "meetStudents":user_data.meetStudents,  "workExp":user_data.workExp})
@@ -138,8 +143,6 @@ def resources():
     NUMBER_OF_RESOURCES = len(resources_data)
     return render_template("resources.html", resources_data= resources_data)
 
-
-
 @app.route("/network", methods=["GET", "POST"])
 def network():
     mentee_data = session["mentee_data"] = True
@@ -163,7 +166,6 @@ def mentorHome():
 @app.route("/editProfile", methods=["GET"])
 def editProfile():
     return render_template("editProfile.html")
-
 
 @app.route("/profileChanges", methods=["POST"])
 def profileChanges():
@@ -203,13 +205,25 @@ def profileChanges():
         user_data.profile_pic = filename
         session["pic"] = "img/" + str(filename)
         flash("Profile picture has been uploaded")
-        
+    
+    qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=15, border=5,)
+    filename = f"static/img/qrcode_{session['username']}.png"
+    profile_data = f"Name: {session['fname']} {session['lname']}\nUsername: {session['username']}\nPRN NO: {session['prn_num']}\nBranch: {session['branch']}\nBatch: {session['batch']}\nCollege Email: {session['email']}\nAggregate SGPA: {session['aggregate_sgpa']}\nClass Incharge: {session['class_incharge']}\nAchievemnts: {session['achievements']}\nInternships: {session['internships']}"
+    qr.add_data(profile_data)
+    qr.make(fit=True)
+
+    # Create an image of the QR code
+    qr_img = qr.make_image(fill_color="black", back_color="white")
+    qr_img.save(filename)
+    
+    timestamp = int(datetime.now().timestamp())
     db.session.commit()
+    
     if session["bio"] == "":
         flash("Adding a bio will make your profile look good! (Changes of any other fields have been saved)")
         return redirect(url_for('editProfile'))
     flash("Changes have been saved to the database")
-    return redirect(url_for('editProfile'))
+    return render_template("editProfile.html", timestamp=timestamp)
 
 @app.route("/addResource", methods=["POST"])
 def addResource():

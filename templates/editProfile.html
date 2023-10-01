@@ -7,6 +7,7 @@
 
 
 {% block body %}
+
 <h2 style="text-align:center;">Edit Profile</h2>
 <div class="row">
   <div class="col-xs-12 col-sm-3 center">
@@ -146,6 +147,34 @@
       </div>
     </div>
 
+    
+    <div class="col-xs-12 col-sm-3 center">
+      <!-- ... (other profile content) -->
+   
+      <!-- Display the QR code image -->
+      <img id="qrCodeImage" src="{{ url_for('static', filename='img/qrcode_' + session['username'] + '.png') }}?t={{ timestamp }}" alt="QR Code" style="max-width: 100%;">
+   </div>
+   
+   <button id="saveAsPngButton" class="btn btn-outline-primary">Save as PNG</button>
+
+   <script>
+    document.getElementById("saveAsPngButton").addEventListener("click", function () {
+        // Get the QR code image element
+        const qrImage = document.getElementById("qrCodeImage");
+
+        // Create a temporary link element
+        const a = document.createElement("a");
+        a.href = qrImage.src; // Set the URL to the QR code image
+        a.download = "qrcode.png"; // Set the desired filename for the download
+        document.body.appendChild(a);
+
+        // Trigger a click event on the link to start the download
+        a.click();
+
+        // Remove the temporary link element
+        document.body.removeChild(a);
+    });
+</script>
 
       <div class="profile-info-row">
         <div class="profile-info-name"> Preferences </div>
