@@ -63,28 +63,34 @@
       </div>
 
 
+      {% if session["user_type"] == "mentee" %}
       <div class="profile-info-row">
         <div class="profile-info-name"> PRN No. </div>
         <div class="profile-info-value">
           <input type="text" form="editProfile" name="prn_num" class="form-control" value="{{session['prn_num']}}">
         </div>
       </div>
+      {%endif%}
 
 
+      {% if session["user_type"] == "mentee" %}
       <div class="profile-info-row">
         <div class="profile-info-name"> Branch </div>
         <div class="profile-info-value">
           <input type="text" form="editProfile" name="branch" class="form-control" value="{{session['branch']}}">
         </div>
       </div>
+      {%endif%}
 
 
+      {% if session["user_type"] == "mentee" %}
       <div class="profile-info-row">
         <div class="profile-info-name"> Batch </div>
         <div class="profile-info-value">
           <input type="text" form="editProfile" name="batch" class="form-control" value="{{session['batch']}}">
         </div>
       </div>
+      {%endif%}
 
 
       <div class="profile-info-row">
@@ -95,44 +101,54 @@
       </div>
 
 
+      {% if session["user_type"] == "mentee" %}
       <div class="profile-info-row">
         <div class="profile-info-name"> LinkedIn Id </div>
         <div class="profile-info-value">
           <input type="text" form="editProfile" name="linkedin_pro" class="form-control" value="{{session['linkedin_pro']}}">
         </div>
       </div>
+      {%endif%}
 
 
+      {% if session["user_type"] == "mentee" %}
       <div class="profile-info-row">
         <div class="profile-info-name"> Class Incharge </div>
         <div class="profile-info-value">
           <input type="text" form="editProfile" name="class_incharge" class="form-control" value="{{session['class_incharge']}}">
         </div>
       </div>
+      {%endif%}
 
 
+      {% if session["user_type"] == "mentee" %}
       <div class="profile-info-row">
         <div class="profile-info-name"> Aggregate SGPA </div>
         <div class="profile-info-value">
           <input type="text" form="editProfile" name="aggregate_sgpa" class="form-control" value="{{session['aggregate_sgpa']}}">
         </div>
       </div>
+      {%endif%}
 
 
+      {% if session["user_type"] == "mentee" %}
       <div class="profile-info-row">
         <div class="profile-info-name"> Achievements </div>
         <div class="profile-info-value">
           <input type="text" form="editProfile" name="achievements" class="form-control" value="{{session['achievements']}}">
         </div>
       </div>
+      {%endif%}
 
 
+      {% if session["user_type"] == "mentee" %}
       <div class="profile-info-row">
         <div class="profile-info-name"> Internships (if any) </div>
         <div class="profile-info-value">
           <input type="text" form="editProfile" name="internships" class="form-control" value="{{session['internships']}}">
         </div>
       </div>
+      {%endif%}
 
 
       <div class="profile-info-row">
@@ -147,7 +163,7 @@
       </div>
     </div>
 
-    
+    {% if session["user_type"] == "mentee" %}
     <div class="col-xs-12 col-sm-3 center">
       <!-- ... (other profile content) -->
    
@@ -161,11 +177,12 @@
     document.getElementById("saveAsPngButton").addEventListener("click", function () {
         // Get the QR code image element
         const qrImage = document.getElementById("qrCodeImage");
+        const username = "{{ session['username'] }}";
 
         // Create a temporary link element
         const a = document.createElement("a");
         a.href = qrImage.src; // Set the URL to the QR code image
-        a.download = "qrcode.png"; // Set the desired filename for the download
+        a.download = `${username}_QRcode.png`; // Set the desired filename for the download
         document.body.appendChild(a);
 
         // Trigger a click event on the link to start the download
@@ -175,7 +192,8 @@
         document.body.removeChild(a);
     });
 </script>
-
+{% else %}
+{%endif%}
       <div class="profile-info-row">
         <div class="profile-info-name"> Preferences </div>
 
