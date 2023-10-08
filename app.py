@@ -64,7 +64,7 @@ def validateUser():
             file_path = "img/" + str(user_data.profile_pic)
             session.update({"username":username, "fname":user_data.fname, "lname":user_data.lname,"user_type":user_type,"email":user_data.email, "pic":file_path, "cv_help":user_data.cv_help, "bio":user_data.bio ,"mockInterview":user_data.mockInterview })
             if user_type == "mentee":
-                session.update({"meetAlumni": user_data.meetAlumni, "prn_num":user_data.prn_num, "branch": user_data.branch, "batch": user_data.batch, "linkedin_pro": user_data.linkedin_pro, "class_incharge": user_data.class_incharge, "aggregate_sgpa": user_data.aggregate_sgpa, "achievements": user_data.achievements, "internships": user_data.internships})
+                session.update({"meetAlumni": user_data.meetAlumni, "prn_num":user_data.prn_num, "branch": user_data.branch, "batch": user_data.batch, "linkedin_pro": user_data.linkedin_pro})
                 return redirect(url_for('menteeHome'))
             else:
                 session.update({"job":user_data.job, "meetStudents":user_data.meetStudents,  "workExp":user_data.workExp})
@@ -102,10 +102,10 @@ def registerUser():
         mockInterview = True if request.form.get("mockInterview2")  == "on" else False
         workExp = True if request.form.get("workExp") == "on" else False
 
-        new_mentor = Mentor(fname=fname, lname=lname, username=username, profile_pic= "arabsoc.png" ,password=password, email=email, job=job, cv_help=cv_help, meetStudents= meet_students, mockInterview=mockInterview, workExp=workExp)
+        new_mentor = Mentor(fname=fname, lname=lname, username=username, profile_pic= "mentor_pic.png" ,password=password, email=email, job=job, cv_help=cv_help, meetStudents= meet_students, mockInterview=mockInterview, workExp=workExp)
         db.session.add(new_mentor)
         db.session.commit()
-        session.update({"username":username, "fname":fname, "lname":lname, "bio":"-", "pic":"img/arabsoc.png" , "user_type":"mentor", "email":email, "job":job, "cv_help":cv_help,"meetStudents":meet_students, "mockInterview":mockInterview, "workExp":workExp })
+        session.update({"username":username, "fname":fname, "lname":lname, "bio":"-", "pic":"img/mentor_pic.png" , "user_type":"mentor", "email":email, "job":job, "cv_help":cv_help,"meetStudents":meet_students, "mockInterview":mockInterview, "workExp":workExp })
 
     else:
         fname = request.form.get("fname")
@@ -114,22 +114,28 @@ def registerUser():
         password = request.form.get("password")
         email = request.form.get("email")
         prn_num = request.form.get("")
+        dob = request.form.get("")
+        mobile_no = request.form.get("")
+        address = request.form.get("")
+        blood_grp = request.form.get("")
         branch = request.form.get("")
         batch = request.form.get("")
         linkedin_pro = request.form.get("")
-        class_incharge = request.form.get("")
-        aggregate_sgpa = request.form.get("")
-        achievements = request.form.get("")
-        internships = request.form.get("")
+        parent_name = request.form.get("")
+        occupation = request.form.get("")
+        p_mobile_no = request.form.get("")
+        ssc = request.form.get("")
+        hsc = request.form.get("")
+        cet_jee = request.form.get("")
 
         cv_help = True if request.form.get("cvhelp") == "on" else False
         meetAlumni = True if request.form.get("meetAlumni") == "on" else False
         mockInterview = True if request.form.get("mockInterview") == "on" else False
 
-        new_mentee = Mentee(fname=fname, lname=lname, prn_num = "-", branch = "-", batch = "-",username=username, profile_pic= "arabsoc.png" , password=password, linkedin_pro = "-", class_incharge = '-', aggregate_sgpa = "0", achievements = "-", internships = "-",email=email, cv_help=cv_help, meetAlumni= meetAlumni, mockInterview=mockInterview)
+        new_mentee = Mentee(fname=fname, lname=lname, prn_num = "", branch = "", batch = "",username=username, profile_pic= "mentee_pic.png" , password=password, linkedin_pro = "", dob = "", mobile_no = "", address = '', blood_grp = '', parent_name = '', occupation = '', p_mobile_no = '', ssc = '', hsc = '', cet_jee = '',email=email, cv_help=cv_help, meetAlumni= meetAlumni, mockInterview=mockInterview)
         db.session.add(new_mentee)
         db.session.commit()
-        session.update({"username":username, "fname":fname, "lname":lname, 'prn_num': prn_num,"bio":"-", "pic":"img/arabsoc.png", "user_type":"mentee", "email":email, "branch": branch, "batch": batch, "linkedin_pro": linkedin_pro, "class_incharge": class_incharge, "aggregate_sgpa": aggregate_sgpa, "achievements": achievements, "internships": internships,"cv_help":cv_help,"meetAlumni": meetAlumni, "mockInterview":mockInterview})
+        session.update({"username":username, "fname":fname, "lname":lname, 'prn_num': prn_num, 'dob': dob, 'mobile_no': mobile_no, 'address': address, 'blood_grp': blood_grp, 'parent_name': parent_name, 'occupation': occupation, 'p_mobile_no': p_mobile_no, 'ssc': ssc, 'hsc': hsc, 'cet_jee': cet_jee,"bio":"-", "pic":"img/mentee_profile.png", "user_type":"mentee", "email":email, "branch": branch, "batch": batch, "linkedin_pro": linkedin_pro,"cv_help":cv_help,"meetAlumni": meetAlumni, "mockInterview":mockInterview})
 
     return redirect(url_for('mentorHome')) if mentorForm != None else redirect(url_for('menteeHome'))
 
@@ -177,14 +183,19 @@ def profileChanges():
         user_data.fname = session["fname"] = request.form.get("fname")
         user_data.lname = session["lname"] = request.form.get("lname")
         user_data.prn_num = session["prn_num"] = request.form.get("prn_num")
+        user_data.dob = session["dob"] = request.form.get("dob")
+        user_data.mobile_no = session["mobile_no"] = request.form.get("mobile_no")
+        user_data.address = session["address"] = request.form.get("address")
+        user_data.blood_grp = session["blood_grp"] = request.form.get("blood_grp")
         user_data.branch = session["branch"] = request.form.get("branch")
         user_data.batch = session["batch"] = request.form.get("batch")
-        user_data.email = session["email"] = request.form.get("email")
+        user_data.parent_name = session["parent_name"] = request.form.get("parent_name")
+        user_data.occupation = session["occupation"] = request.form.get("occupation")
+        user_data.p_mobile_no = session["p_mobile_no"] = request.form.get("p_mobile_no")
+        user_data.ssc = session["ssc"] = request.form.get("ssc")
+        user_data.hsc = session["hsc"] = request.form.get("hsc")
+        user_data.cet_jee = session["cet_jee"] = request.form.get("cet_jee")
         user_data.linkedin_pro = session["linkedin_pro"] = request.form.get("linkedin_pro")
-        user_data.class_incharge = session["class_incharge"] = request.form.get("class_incharge")
-        user_data.aggregate_sgpa = session["aggregate_sgpa"] = request.form.get("aggregate_sgpa")
-        user_data.achievements = session["achievements"] = request.form.get("achievements")
-        user_data.internships = session["internships"] = request.form.get("internships")
 
     else:
         user_data = Mentor.query.filter_by(username=session.get("username")).one()
@@ -206,9 +217,14 @@ def profileChanges():
         session["pic"] = "img/" + str(filename)
         flash("Profile picture has been uploaded")
     
-    qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=15, border=5,)
+    qr_token = secrets.token_urlsafe(16)  # Generate a secure token
+    session["qr_token"] = qr_token  # Store the token in the session
+
+    profile_data = f"Token: {qr_token}\nName: {session['fname']} {session['lname']}\nUsername: {session['username']}\nPRN NO: {session['prn_num']}\nBranch: {session['branch']}\nBatch: {session['batch']}\nCollege Email: {session['email']}\nAggregate SGPA: {session['aggregate_sgpa']}\nClass Incharge: {session['class_incharge']}\nAchievemnts: {session['achievements']}\nInternships: {session['internships']}"
+    
+    qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=15, border=5)
     filename = f"static/img/qrcode_{session['username']}.png"
-    profile_data = f"Name: {session['fname']} {session['lname']}\nUsername: {session['username']}\nPRN NO: {session['prn_num']}\nBranch: {session['branch']}\nBatch: {session['batch']}\nCollege Email: {session['email']}\nAggregate SGPA: {session['aggregate_sgpa']}\nClass Incharge: {session['class_incharge']}\nAchievemnts: {session['achievements']}\nInternships: {session['internships']}"
+    profile_data = f"Name: {session['fname']} {session['lname']}\nUsername: {session['username']}\nPRN NO: {session['prn_num']}\nBranch: {session['branch']}\nBatch: {session['batch']}\nCollege Email: {session['email']}\nDOB: {session['dob']}\nBlood Group: {session['blood_grp']}\nMobile Number: {session['mobile_no']}\nAddress: {session['address']}"
     qr.add_data(profile_data)
     qr.make(fit=True)
 
@@ -224,6 +240,20 @@ def profileChanges():
         return redirect(url_for('editProfile'))
     flash("Changes have been saved to the database")
     return render_template("editProfile.html", timestamp=timestamp)
+
+@app.route("/scanQR", methods=["GET", "POST"])
+def scanQR():
+    if request.method == "POST":
+        entered_password = request.form.get("password")
+        correct_password = session.get("qr_token")
+
+        if entered_password == correct_password:
+            # Password is correct, display the information
+            return render_template("profile_info.html")
+        else:
+            flash("Incorrect password. Please try again.")
+    
+    return render_template("scan_qr.html")
 
 @app.route("/addResource", methods=["POST"])
 def addResource():

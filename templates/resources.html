@@ -7,7 +7,7 @@
 {% block body %}
 <h2 style="text-align:center;">Resources here</h2>
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" ">Add a resource</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add a resource</button>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -30,7 +30,7 @@
           </div>
           <div class="form-group">
             <a href="#" class="btn btn-sm btn-block btn-danger">
-              <input type="file" name="file" accept="application/pdf">
+              <input type="file" name="file" accept=".pdf, .jpg, .jpeg, .png" style="max-width: 100%;">
             </a>
           </div>
         </form>
@@ -80,7 +80,7 @@
         </div>
         <div class="modal-body">
           <iframe src="{{ url_for('static', filename= file_path) }}" width = "470px" height="600px">
-          <p>Your browser does not support iframes therefore the preview feature will not work :'(</p>
+          <p>Your browser does not support iframes therefore the preview feature will not work :('</p>
         </iframe>
         </div>
         <div class="modal-footer">
