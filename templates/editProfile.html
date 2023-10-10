@@ -11,7 +11,7 @@
 
 {% block body %}
 
-<h2 style="text-align:center;">Edit Profile</h2>
+<h2 style="text-align:center;"> Profile </h2>
 
 <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
   <li class="nav-item">
@@ -66,7 +66,7 @@
       <div class="profile-info-row">
         <div class="profile-info-name"> First Name </div>
         <div class="profile-info-value">
-          <input type="text" form="editProfile" name="fname" class="form-control" value="{{session['fname']}}">
+          <input type="text" form="editProfile" name="fname" class="form-control" value="{{session['fname'] or '' }}">
         </div>
       </div>
 
@@ -74,46 +74,55 @@
       <div class="profile-info-row">
         <div class="profile-info-name"> Last Name </div>
         <div class="profile-info-value">
-          <input type="text" form="editProfile" name="lname" class="form-control" value="{{session['lname']}}">
+          <input type="text" form="editProfile" name="lname" class="form-control" value="{{session['lname'] or '' }}">
         </div>
       </div>
-
-
-      {% if session["user_type"] == "mentee" %}
-      <div class="profile-info-row">
-        <div class="profile-info-name"> PRN NO. </div>
-        <div class="profile-info-value">
-          <input type="text" form="editProfile" name="prn_num" class="form-control" value="{{session['prn_num']}}" placeholder = 'Enter PRN NO.'>
-        </div>
-      </div>
-      {%endif%}
 
 
       {% if session["user_type"] == "mentee" %}
       <div class="profile-info-row">
         <div class="profile-info-name"> D.O.B </div>
         <div class="profile-info-value">
-          <input type="text" form="editProfile" name="dob" class="form-control" value="{{session['dob']}}" placeholder = 'Enter D.O.B in (dd/mm/yyyy)'>
+          <input type="text" form="editProfile" name="dob" class="form-control" value="{{session['dob'] or '' }}" placeholder = 'Enter D.O.B in (dd/mm/yyyy)'>
+        </div>
+      </div>
+      {%endif%}
+      
+
+      {% if session["user_type"] == "mentee" %}
+      <div class="profile-info-row">
+        <div class="profile-info-name"> PRN NO. </div>
+        <div class="profile-info-value">
+          <input type="text" form="editProfile" name="prn_num" class="form-control" value="{{ session[prn_num] or '' }}" placeholder = 'Enter PRN NO.'>
         </div>
       </div>
       {%endif%}
 
+
+      {% if session["user_type"] == "mentee" %}
+      <div class="profile-info-row">
+        <div class="profile-info-name"> Year </div>
+        <div class="profile-info-value">
+          <input type="text" form="editProfile" name="year" class="form-control" value="{{session['year'] or '' }}" placeholder = 'Enter year'>
+        </div>
+      </div>
+      {%endif%}
 
       {% if session["user_type"] == "mentee" %}
       <div class="profile-info-row">
         <div class="profile-info-name"> Branch </div>
         <div class="profile-info-value">
-          <input type="text" form="editProfile" name="branch" class="form-control" value="{{session['branch']}}" placeholder = 'Enter branch'>
+          <input type="text" form="editProfile" name="branch" class="form-control" value="{{session['branch'] or '' }}" placeholder = 'Enter branch'>
         </div>
       </div>
       {%endif%}
-
+      
 
       {% if session["user_type"] == "mentee" %}
       <div class="profile-info-row">
         <div class="profile-info-name"> Batch </div>
         <div class="profile-info-value">
-          <input type="text" form="editProfile" name="batch" class="form-control" value="{{session['batch']}}" placeholder = 'Enter batch'>
+          <input type="text" form="editProfile" name="batch" class="form-control" value="{{session['batch'] or '' }}" placeholder = 'Enter batch'>
         </div>
       </div>
       {%endif%}
@@ -122,7 +131,7 @@
       <div class="profile-info-row">
         <div class="profile-info-name"> College Email </div>
         <div class="profile-info-value">
-          <input type="text" form="editProfile" name="email" class="form-control" value="{{session['email']}}" placeholder = 'Enter college email (ac.in)'>
+          <input type="text" form="editProfile" name="email" class="form-control" value="{{session['email'] or '' }}" placeholder = 'Enter college email (ac.in)'>
         </div>
       </div>
 
@@ -131,7 +140,7 @@
       <div class="profile-info-row">
         <div class="profile-info-name"> Mobile No. </div>
         <div class="profile-info-value">
-          <input type="text" form="editProfile" name="mobile_no" class="form-control" value="{{session['mobile_no']}}" placeholder = 'Enter your mobile number'>
+          <input type="text" form="editProfile" name="mobile_no" class="form-control" value="{{session['mobile_no'] or '' }}" placeholder = 'Enter your mobile number'>
         </div>
       </div>
       {%endif%}
@@ -141,7 +150,7 @@
       <div class="profile-info-row">
         <div class="profile-info-name"> Address </div>
         <div class="profile-info-value">
-          <input type="text" form="editProfile" name="address" class="form-control" value="{{session['address']}}" placeholder = 'Enter address'>
+          <textarea class="form-control" form="editProfile" name="address" id="exampleFormControlTextarea1" rows="5" placeholder='Enter address'>{{session["address"] or '' }}</textarea>
         </div>
       </div>
       {%endif%}
@@ -151,7 +160,7 @@
       <div class="profile-info-row">
         <div class="profile-info-name"> Blood Group </div>
         <div class="profile-info-value">
-          <input type="text" form="editProfile" name="blood_grp" class="form-control" value="{{session['blood_grp']}}" placeholder = 'Enter blood group'>
+          <input type="text" form="editProfile" name="blood_grp" class="form-control" value="{{session['blood_grp'] or '' }}" placeholder = 'Enter blood group'>
         </div>
       </div>
       {%endif%}
@@ -161,7 +170,7 @@
       <div class="profile-info-row">
         <div class="profile-info-name"> LinkedIn Id </div>
         <div class="profile-info-value">
-          <input type="text" form="editProfile" name="linkedin_pro" class="form-control" value="{{session['linkedin_pro']}}" placeholder = 'Enter LinkedIn Profile Link'>
+          <input type="text" form="editProfile" name="linkedin_pro" class="form-control" value="{{session['linkedin_pro'] or '' }}" placeholder = 'Enter LinkedIn Profile Link'>
         </div>
       </div>
       {%endif%}
@@ -170,7 +179,7 @@
         <div class="profile-info-name"> Job </div>
         <div class="profile-info-value">
           {% if session["user_type"] == "mentor" %}
-            <input type="text" form="editProfile" name="job" class="form-control" value="{{session['job']}}">
+            <input type="text" form="editProfile" name="job" class="form-control" value="{{session['job'] or '' }}">
           {% else %}
             <input class="form-control" type="text" placeholder="Student" readonly>
           {% endif %}
@@ -181,12 +190,15 @@
     <h4 style='margin-top: 30px;'>
       <span style="text-align: center;"> Parent Details </span>
     </h4>
-    <div class="line"></div>
+    <div class='line'></div>
+    <h5 style='margin-top: 30px;'>
+      <span style="text-align: center;"> Father's Details </span>
+    </h5>
     <div class="profile-user-info">
     <div class="profile-info-row">
       <div class="profile-info-name"> Name </div>
       <div class="profile-info-value">
-        <input type="text" form="editProfile" name="parent_name" class="form-control" value="{{session['parent_name']}}"  placeholder='Enter name'>
+        <input type="text" form="editProfile" name="father_name" class="form-control" value="{{session['father_name'] or '' }}"  placeholder='Enter name'>
       </div>
     </div>
 
@@ -194,17 +206,58 @@
     <div class="profile-info-row">
       <div class="profile-info-name"> Occupation </div>
       <div class="profile-info-value">
-        <input type="text" form="editProfile" name="occupation" class="form-control" value="{{session['occupation']}}" placeholder='Enter occupation'>
+        <input type="text" form="editProfile" name="father_occupation" class="form-control" value="{{session['father_occupation'] or '' }}" placeholder='Enter occupation'>
       </div>
     </div>
 
     <div class="profile-info-row">
       <div class="profile-info-name"> Mobile No. </div>
       <div class="profile-info-value">
-        <input type="text" form="editProfile" name="p_mobile_no" class="form-control" value="{{session['p_mobile_no']}}" placeholder='Enter mobile number'>
+        <input type="text" form="editProfile" name="father_mobile_no" class="form-control" value="{{session['father_mobile_no'] or '' }}" placeholder='Enter mobile number'>
+      </div>
+    </div>
+
+    <div class="profile-info-row">
+      <div class="profile-info-name"> Email </div>
+      <div class="profile-info-value">
+        <input type="text" form="editProfile" name="father_email" class="form-control" value="{{session['father_email'] or '' }}" placeholder='Enter email'>
       </div>
     </div>
   </div>
+
+  <h5 style='margin-top: 30px;'>
+    <span style="text-align: center;"> Mother's Details </span>
+  </h5>
+  <div class="profile-user-info">
+  <div class="profile-info-row">
+    <div class="profile-info-name"> Name </div>
+    <div class="profile-info-value">
+      <input type="text" form="editProfile" name="mother_name" class="form-control" value="{{session['mother_name'] or '' }}"  placeholder='Enter name'>
+    </div>
+  </div>
+
+
+  <div class="profile-info-row">
+    <div class="profile-info-name"> Occupation </div>
+    <div class="profile-info-value">
+      <input type="text" form="editProfile" name="mother_occupation" class="form-control" value="{{session['mother_occupation'] or '' }}" placeholder='Enter occupation'>
+    </div>
+  </div>
+
+  <div class="profile-info-row">
+    <div class="profile-info-name"> Mobile No. </div>
+    <div class="profile-info-value">
+      <input type="text" form="editProfile" name="mother_mobile_no" class="form-control" value="{{session['mother_mobile_no'] or '' }}" placeholder='Enter mobile number'>
+    </div>
+  </div>
+
+  <div class="profile-info-row">
+    <div class="profile-info-name"> Email </div>
+    <div class="profile-info-value">
+      <input type="text" form="editProfile" name="mother_email" class="form-control" value="{{session['mother_email'] or '' }}" placeholder='Enter mobile number'>
+    </div>
+  </div>
+</div>
     {%endif%}
 
     {% if session["user_type"] == "mentee" %}
@@ -216,7 +269,7 @@
     <div class="profile-info-row">
       <div class="profile-info-name"> SSC % </div>
       <div class="profile-info-value">
-        <input type="text" form="editProfile" name="ssc" class="form-control" value="{{session['ssc']}}"  placeholder='Enter %'>
+        <input type="text" form="editProfile" name="ssc" class="form-control" value="{{session['ssc'] or '' }}"  placeholder='Enter %'>
       </div>
     </div>
 
@@ -224,14 +277,42 @@
     <div class="profile-info-row">
       <div class="profile-info-name"> HSC % </div>
       <div class="profile-info-value">
-        <input type="text" form="editProfile" name="hsc" class="form-control" value="{{session['hsc']}}" placeholder='Enter %'>
+        <input type="text" form="editProfile" name="hsc" class="form-control" value="{{session['hsc'] or '' }}" placeholder='Enter %'>
       </div>
     </div>
 
     <div class="profile-info-row">
       <div class="profile-info-name"> CET/JEE Score </div>
       <div class="profile-info-value">
-        <input type="text" form="editProfile" name="cet_jee" class="form-control" value="{{session['cet_jee']}}" placeholder='Enter score'>
+        <input type="text" form="editProfile" name="cet_jee" class="form-control" value="{{session['cet_jee'] or '' }}" placeholder='Enter score'>
+      </div>
+    </div>
+
+    <div class="profile-info-row">
+      <div class="profile-info-name"> Hobbies/Interests </div>
+      <div class="profile-info-value">
+        <textarea class="form-control" form="editProfile" name="hobbies" id="exampleFormControlTextarea1" rows="3" placeholder='Enter hobbies'>{{session["hobbies"] or '' }}</textarea>
+      </div>
+    </div>
+
+    <div class="profile-info-row">
+      <div class="profile-info-name"> Strengths </div>
+      <div class="profile-info-value">
+        <textarea class="form-control" form="editProfile" name="strengths" id="exampleFormControlTextarea1" rows="3" placeholder='Enter your strengths'>{{session["strengths"] or '' }}</textarea>
+      </div>
+    </div>
+
+    <div class="profile-info-row">
+      <div class="profile-info-name"> Weakness </div>
+      <div class="profile-info-value">
+        <textarea class="form-control" form="editProfile" name="weakness" id="exampleFormControlTextarea1" rows="3" placeholder='Enter your weakness'>{{session["weakness"] or '' }}</textarea>
+      </div>
+    </div>
+
+    <div class="profile-info-row">
+      <div class="profile-info-name"> Goals </div>
+      <div class="profile-info-value">
+        <textarea class="form-control" form="editProfile" name="goals" id="exampleFormControlTextarea1" rows="3" placeholder='Enter your goals'>{{session["goals"] or '' }}</textarea>
       </div>
     </div>
   </div>
@@ -251,7 +332,7 @@
       <div class="widget-box transparent">
         <div class="form-group">
       <label for="exampleFormControlTextarea1">Edit Bio</label>
-      <textarea class="form-control" form="editProfile" name="bio" id="exampleFormControlTextarea1" rows="3" >{{session["bio"]}}</textarea>
+      <textarea class="form-control" form="editProfile" name="bio" id="exampleFormControlTextarea1" rows="3" placeholder='Enter bio'>{{session["bio"] or '' }}</textarea>
   
     </div>
       </div>

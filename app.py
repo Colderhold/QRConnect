@@ -113,17 +113,27 @@ def registerUser():
         username = request.form.get("username")
         password = request.form.get("password")
         email = request.form.get("email")
-        prn_num = request.form.get("")
-        dob = request.form.get("")
+        prn_num = request.form.get("prn_num")
+        dob = request.form.get("dob")
+        year = request.form.get("")
         mobile_no = request.form.get("")
         address = request.form.get("")
         blood_grp = request.form.get("")
         branch = request.form.get("")
         batch = request.form.get("")
         linkedin_pro = request.form.get("")
-        parent_name = request.form.get("")
-        occupation = request.form.get("")
-        p_mobile_no = request.form.get("")
+        father_name = request.form.get("")
+        father_occupation = request.form.get("")
+        father_mobile_no = request.form.get("")
+        father_email = request.form.get("")
+        mother_name = request.form.get("")
+        mother_occupation = request.form.get("")
+        mother_mobile_no = request.form.get("")
+        mother_email = request.form.get("")
+        hobbies = request.form.get("")
+        strengths = request.form.get("")
+        weakness = request.form.get("")
+        goals = request.form.get("")
         ssc = request.form.get("")
         hsc = request.form.get("")
         cet_jee = request.form.get("")
@@ -132,10 +142,10 @@ def registerUser():
         meetAlumni = True if request.form.get("meetAlumni") == "on" else False
         mockInterview = True if request.form.get("mockInterview") == "on" else False
 
-        new_mentee = Mentee(fname=fname, lname=lname, prn_num = "", branch = "", batch = "",username=username, profile_pic= "mentee_pic.png" , password=password, linkedin_pro = "", dob = "", mobile_no = "", address = '', blood_grp = '', parent_name = '', occupation = '', p_mobile_no = '', ssc = '', hsc = '', cet_jee = '',email=email, cv_help=cv_help, meetAlumni= meetAlumni, mockInterview=mockInterview)
+        new_mentee = Mentee(fname=fname, lname=lname, prn_num = "", year = '', branch = "", batch = "",username=username, profile_pic= "mentee_pic.png" , password=password, linkedin_pro = "", dob = "", mobile_no = "", address = '', blood_grp = '', father_name = '', father_occupation = '', father_mobile_no = '', father_email = '', mother_name = '', mother_occupation = '', mother_mobile_no = '', mother_email = '', ssc = '', hsc = '', cet_jee = '', hobbies = '', strengths = '', weakness = '', goals = '', email=email, cv_help=cv_help, meetAlumni= meetAlumni, mockInterview=mockInterview)
         db.session.add(new_mentee)
         db.session.commit()
-        session.update({"username":username, "fname":fname, "lname":lname, 'prn_num': prn_num, 'dob': dob, 'mobile_no': mobile_no, 'address': address, 'blood_grp': blood_grp, 'parent_name': parent_name, 'occupation': occupation, 'p_mobile_no': p_mobile_no, 'ssc': ssc, 'hsc': hsc, 'cet_jee': cet_jee,"bio":"-", "pic":"img/mentee_profile.png", "user_type":"mentee", "email":email, "branch": branch, "batch": batch, "linkedin_pro": linkedin_pro,"cv_help":cv_help,"meetAlumni": meetAlumni, "mockInterview":mockInterview})
+        session.update({"username":username, "fname":fname, "lname":lname, 'prn_num': prn_num, 'dob': dob, 'mobile_no': mobile_no, 'address': address, 'blood_grp': blood_grp, 'father_name': father_name, 'father_occupation': father_occupation, 'father_mobile_no': father_mobile_no, 'father_email': father_email, 'mother_name': mother_name, 'mother_occupation': mother_occupation, 'mother_mobile_no': mother_mobile_no, 'mother_email': mother_email, 'hobbies': hobbies, 'strengths': strengths, 'weakness': weakness, 'goals': goals, 'ssc': ssc, 'hsc': hsc, 'cet_jee': cet_jee,"bio":"-", "pic":"img/mentee_profile.png", "user_type":"mentee", 'year': year, "email":email, "branch": branch, "batch": batch, "linkedin_pro": linkedin_pro,"cv_help":cv_help,"meetAlumni": meetAlumni, "mockInterview":mockInterview})
 
     return redirect(url_for('mentorHome')) if mentorForm != None else redirect(url_for('menteeHome'))
 
@@ -184,14 +194,24 @@ def profileChanges():
         user_data.lname = session["lname"] = request.form.get("lname")
         user_data.prn_num = session["prn_num"] = request.form.get("prn_num")
         user_data.dob = session["dob"] = request.form.get("dob")
+        user_data.year = session["year"] = request.form.get("year")
         user_data.mobile_no = session["mobile_no"] = request.form.get("mobile_no")
         user_data.address = session["address"] = request.form.get("address")
         user_data.blood_grp = session["blood_grp"] = request.form.get("blood_grp")
         user_data.branch = session["branch"] = request.form.get("branch")
         user_data.batch = session["batch"] = request.form.get("batch")
-        user_data.parent_name = session["parent_name"] = request.form.get("parent_name")
-        user_data.occupation = session["occupation"] = request.form.get("occupation")
-        user_data.p_mobile_no = session["p_mobile_no"] = request.form.get("p_mobile_no")
+        user_data.father_name = session["father_name"] = request.form.get("father_name")
+        user_data.father_occupation = session["father_occupation"] = request.form.get("father_occupation")
+        user_data.father_mobile_no = session["father_mobile_no"] = request.form.get("father_mobile_no")
+        user_data.father_email = session["father_email"] = request.form.get("father_email")
+        user_data.mother_name = session["mother_name"] = request.form.get("mother_name")
+        user_data.mother_occupation = session["mother_occupation"] = request.form.get("mother_occupation")
+        user_data.mother_mobile_no = session["mother_mobile_no"] = request.form.get("mother_mobile_no")
+        user_data.mother_email = session["mother_email"] = request.form.get("mother_email")
+        user_data.hobbies = session["hobbies"] = request.form.get("hobbies")
+        user_data.strengths = session["strengths"] = request.form.get("strengths")
+        user_data.weakness = session["weakness"] = request.form.get("weakness")
+        user_data.goals = session["goals"] = request.form.get("goals")
         user_data.ssc = session["ssc"] = request.form.get("ssc")
         user_data.hsc = session["hsc"] = request.form.get("hsc")
         user_data.cet_jee = session["cet_jee"] = request.form.get("cet_jee")
@@ -216,11 +236,6 @@ def profileChanges():
         user_data.profile_pic = filename
         session["pic"] = "img/" + str(filename)
         flash("Profile picture has been uploaded")
-    
-    qr_token = secrets.token_urlsafe(16)  # Generate a secure token
-    session["qr_token"] = qr_token  # Store the token in the session
-
-    profile_data = f"Token: {qr_token}\nName: {session['fname']} {session['lname']}\nUsername: {session['username']}\nPRN NO: {session['prn_num']}\nBranch: {session['branch']}\nBatch: {session['batch']}\nCollege Email: {session['email']}\nAggregate SGPA: {session['aggregate_sgpa']}\nClass Incharge: {session['class_incharge']}\nAchievemnts: {session['achievements']}\nInternships: {session['internships']}"
     
     qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=15, border=5)
     filename = f"static/img/qrcode_{session['username']}.png"
