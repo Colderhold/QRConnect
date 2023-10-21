@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
-
+from datetime import datetime
+from sqlalchemy import Column, Integer, String, DateTime
 db = SQLAlchemy()
 
 class Mentor(db.Model):
@@ -55,9 +56,33 @@ class Mentee(db.Model):
   meetAlumni = db.Column(db.Boolean, nullable=False)
   mockInterview = db.Column(db.Boolean, nullable=False)
 
+
 class Resource(db.Model):
-    __tablename__ = "resources"
-    id = db.Column(db.Integer, primary_key=True) #this is the resource id
+    _tablename_ = "resources"
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(255), nullable=False)
     title = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text, nullable=False)
     file = db.Column(db.String(255), nullable=False, default="c.pdf")
+    date_uploaded = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+class Mentee_Grades(db.Model):
+  __tablename__ = "mentee_grades"
+  id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+  username = db.Column(db.String(255), nullable=False)
+  sem = db.Column(db.Integer(), nullable=False)
+  subject = db.Column(db.String(255), nullable=False)
+  marks_ia = db.Column(db.Float(), nullable=False)
+  marks_sem = db.Column(db.Float(), nullable=False)
+  attempt2 = db.Column(db.Float(), nullable=False)
+  attempt3 = db.Column(db.Float(), nullable=False)
+  attempt4 = db.Column(db.Float(), nullable=False)
+  
+  
+class Assigned_Mentee(db.Model):
+   __tablename__ = "assigned_mentees"
+   mentee = db.Column(db.String(255), primary_key = True)
+   mentor = db.Column(db.String(255), nullable=False)
+   batch = db.Column(db.String(255), nullable=False)
+   email = db.Column(db.String(255), nullable=False)

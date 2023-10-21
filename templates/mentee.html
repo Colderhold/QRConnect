@@ -1,0 +1,191 @@
+{% extends "home_layout.html" %}
+
+{% block title %}
+    Home {{ name }}
+{% endblock %}
+
+{% block body %}
+<style>
+    /* Style for the table */
+    table.table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        border: 1px solid #ddd;
+    }
+
+    /* Style for table headers */
+    table.table th {
+        background-color: #f2f2f2;
+        text-align: center;
+        padding: 10px;
+    }
+
+    /* Style for table cells */
+    /* Style for table cells */
+    table.table td {
+        text-align: center;
+        padding: 10px;
+        border: 1px solid #ddd;
+        font-weight: bold; /* Add this line to make text bold */
+        font-size: 16px;  /* Optional: Adjust font size as needed */
+    }    
+
+    /* Style for "View Resources" link */
+    table.table a {
+        text-decoration: none;
+        color: #007BFF;
+    }
+
+    .search-bar {
+        text-align: left; /* Align the container to the right */
+        margin: 10px; /* Add some margin for spacing */
+    }
+
+    /* Style for the search input */
+    .search-input {
+        width: 200px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+</style>
+
+<h2 style='text-align: center;'>Assigned Mentees</h2>
+<div class="search-bar">
+<input class="search-input" type="text" id="menteeSearch" placeholder="Search Mentee Name">
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Mentee Name</th>
+            <th>Resources</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in range(mentees|length) %}
+        <tr>
+            <td>{{ mentees[i] }}</td>
+            <td>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#resourcesModal{{ i }}">
+                    Open Resource preview
+                </button>
+
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#academicModal{{ i }}">
+                    View Academic Details
+                </button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% for i in range(mentees|length) %}
+{% set mentee_resources = resources_data | selectattr("username", "equalto", mentees[i]) %}
+<div class="modal fade" id="resourcesModal{{ i }}" tabindex="-1" role="dialog" aria-labelledby="resourcesModalLabel{{ i }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="resourcesModalLabel{{ i }}">Resources for {{ mentees[i] }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul>
+                    {% for resource in mentee_resources %}
+                        <li>
+                            <a href="{{ url_for('static', filename='resources/' + resource.file) }}" target="_new">
+                                {{ resource.title }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                    {% if mentee_resources is none %}
+                        <li>No resources added by {{ mentees[i] }}</li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% set mentee_marks = academic_details | selectattr("username", "equalto", mentees[i]) %}
+    <div class="modal fade" id="academicModal{{ i }}" tabindex="-1" role="dialog" aria-labelledby="academicModalLabel{{ i }}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="academicModalLabel{{ i }}">Academic Details for {{ mentees[i] }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height: 60vh; overflow-y: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Semester</th>
+                                <th>Subject</th>
+                                <th>IA Marks</th>
+                                <th>Semester Marks</th>
+                                <th>Attempt2</th>
+                                <th>Attempt3</th>
+                                <th>Attempt4</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for academic_record in mentee_marks %}
+                                <tr>
+                                    <td>{{ academic_record.sem }}</td>
+                                    <td>{{ academic_record.subject }}</td>
+                                    <td>{{ academic_record.marks_ia }}</td>
+                                    <td>{{ academic_record.marks_sem }}</td>
+                                    <td>{{ academic_record.attempt2 }}</td>
+                                    <td>{{ academic_record.attempt3 }}</td>
+                                    <td>{{ academic_record.attempt4 }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% if not mentee_marks %}
+                <li>No details added by {{ mentees[i] }}</li>
+                {% endif%}
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+<script>
+    // Get the input field and table
+    const menteeSearchInput = document.getElementById("menteeSearch");
+    const menteeTable = document.querySelector("table");
+
+    // Add an event listener to the search input
+    menteeSearchInput.addEventListener("input", function () {
+        const searchTerm = menteeSearchInput.value.trim().toLowerCase();
+        const rows = menteeTable.querySelectorAll("tbody tr");
+
+        rows.forEach(function (row) {
+            const menteeName = row.querySelector("td:first-child").textContent.toLowerCase();
+            if (menteeName.includes(searchTerm)) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    });
+</script>
+
+{% endblock %}
+
+{% block right_button %}
+<button type="button" class="btn btn-outline-danger" onclick="window.location.href='{{ url_for('editProfile') }}';">Edit Profile</button>
+{% endblock %}

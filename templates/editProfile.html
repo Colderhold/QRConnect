@@ -12,7 +12,7 @@
 {% block body %}
 
 <h2 style="text-align:center;"> Profile </h2>
-
+{% if session["user_type"] == "mentee" %}
 <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
   <li class="nav-item">
     <button class="btn" id="personal_details-btn"> Personal Details </button>
@@ -21,6 +21,7 @@
     <button class="btn" id="academic_details-btn"> Academic Details </button>
   </li>
 </ul>
+{% endif %}
 
 <div class="row" id="personal_details">
   <div class="col-xs-12 col-sm-3 center">
@@ -83,7 +84,7 @@
       <div class="profile-info-row">
         <div class="profile-info-name"> D.O.B </div>
         <div class="profile-info-value">
-          <input type="text" form="editProfile" name="dob" class="form-control" value="{{session['dob'] or '' }}" placeholder = 'Enter D.O.B in (dd/mm/yyyy)'>
+          <input type="text" form="editProfile" name="dob" class="form-control" value="{{session['dob'] or '' }}" placeholder = 'Enter D.O.B in (dd/mm/yyyy) *'>
         </div>
       </div>
       {%endif%}
@@ -93,7 +94,7 @@
       <div class="profile-info-row">
         <div class="profile-info-name"> PRN NO. </div>
         <div class="profile-info-value">
-          <input type="text" form="editProfile" name="prn_num" class="form-control" value="{{ session[prn_num] or '' }}" placeholder = 'Enter PRN NO.'>
+          <input type="text" form="editProfile" name="prn_num" class="form-control" value="{{ session['prn_num'] or '' }}" placeholder = 'Enter PRN NO. *'>
         </div>
       </div>
       {%endif%}
@@ -103,7 +104,7 @@
       <div class="profile-info-row">
         <div class="profile-info-name"> Year </div>
         <div class="profile-info-value">
-          <input type="text" form="editProfile" name="year" class="form-control" value="{{session['year'] or '' }}" placeholder = 'Enter year'>
+          <input type="text" form="editProfile" name="year" class="form-control" value="{{session['year'] or '' }}" placeholder = 'Enter year *'>
         </div>
       </div>
       {%endif%}
@@ -112,7 +113,7 @@
       <div class="profile-info-row">
         <div class="profile-info-name"> Branch </div>
         <div class="profile-info-value">
-          <input type="text" form="editProfile" name="branch" class="form-control" value="{{session['branch'] or '' }}" placeholder = 'Enter branch'>
+          <input type="text" form="editProfile" name="branch" class="form-control" value="{{session['branch'] or '' }}" placeholder = 'Enter branch *'>
         </div>
       </div>
       {%endif%}
@@ -122,7 +123,7 @@
       <div class="profile-info-row">
         <div class="profile-info-name"> Batch </div>
         <div class="profile-info-value">
-          <input type="text" form="editProfile" name="batch" class="form-control" value="{{session['batch'] or '' }}" placeholder = 'Enter batch'>
+          <input type="text" form="editProfile" name="batch" class="form-control" value="{{session['batch'] or '' }}" placeholder = 'Enter batch *'>
         </div>
       </div>
       {%endif%}
@@ -131,26 +132,24 @@
       <div class="profile-info-row">
         <div class="profile-info-name"> College Email </div>
         <div class="profile-info-value">
-          <input type="text" form="editProfile" name="email" class="form-control" value="{{session['email'] or '' }}" placeholder = 'Enter college email (ac.in)'>
+          <input type="text" form="editProfile" name="email" class="form-control" value="{{session['email'] or '' }}" placeholder = 'Enter college email (ac.in) *'>
         </div>
       </div>
-
 
       {% if session["user_type"] == "mentee" %}
       <div class="profile-info-row">
         <div class="profile-info-name"> Mobile No. </div>
         <div class="profile-info-value">
-          <input type="text" form="editProfile" name="mobile_no" class="form-control" value="{{session['mobile_no'] or '' }}" placeholder = 'Enter your mobile number'>
+          <input type="text" form="editProfile" name="mobile_no" class="form-control" value="{{session['mobile_no'] or '' }}" placeholder = 'Enter your mobile number *'>
         </div>
       </div>
       {%endif%}
-
 
       {% if session["user_type"] == "mentee" %}
       <div class="profile-info-row">
         <div class="profile-info-name"> Address </div>
         <div class="profile-info-value">
-          <textarea class="form-control" form="editProfile" name="address" id="exampleFormControlTextarea1" rows="5" placeholder='Enter address'>{{session["address"] or '' }}</textarea>
+          <textarea class="form-control" form="editProfile" name="address" id="exampleFormControlTextarea1" rows="5" placeholder='Enter address *'>{{session["address"] or '' }}</textarea>
         </div>
       </div>
       {%endif%}
@@ -160,7 +159,7 @@
       <div class="profile-info-row">
         <div class="profile-info-name"> Blood Group </div>
         <div class="profile-info-value">
-          <input type="text" form="editProfile" name="blood_grp" class="form-control" value="{{session['blood_grp'] or '' }}" placeholder = 'Enter blood group'>
+          <input type="text" form="editProfile" name="blood_grp" class="form-control" value="{{session['blood_grp'] or '' }}" placeholder = 'Enter blood group *'>
         </div>
       </div>
       {%endif%}
@@ -170,7 +169,7 @@
       <div class="profile-info-row">
         <div class="profile-info-name"> LinkedIn Id </div>
         <div class="profile-info-value">
-          <input type="text" form="editProfile" name="linkedin_pro" class="form-control" value="{{session['linkedin_pro'] or '' }}" placeholder = 'Enter LinkedIn Profile Link'>
+          <input type="text" form="editProfile" name="linkedin_pro" class="form-control" value="{{session['linkedin_pro'] or '' }}" placeholder = 'Enter LinkedIn Profile Link *'>
         </div>
       </div>
       {%endif%}
@@ -198,7 +197,7 @@
     <div class="profile-info-row">
       <div class="profile-info-name"> Name </div>
       <div class="profile-info-value">
-        <input type="text" form="editProfile" name="father_name" class="form-control" value="{{session['father_name'] or '' }}"  placeholder='Enter name'>
+        <input type="text" form="editProfile" name="father_name" class="form-control" value="{{session['father_name'] or '' }}"  placeholder='Enter name *'>
       </div>
     </div>
 
@@ -206,21 +205,21 @@
     <div class="profile-info-row">
       <div class="profile-info-name"> Occupation </div>
       <div class="profile-info-value">
-        <input type="text" form="editProfile" name="father_occupation" class="form-control" value="{{session['father_occupation'] or '' }}" placeholder='Enter occupation'>
+        <input type="text" form="editProfile" name="father_occupation" class="form-control" value="{{session['father_occupation'] or '' }}" placeholder='Enter occupation *'>
       </div>
     </div>
 
     <div class="profile-info-row">
       <div class="profile-info-name"> Mobile No. </div>
       <div class="profile-info-value">
-        <input type="text" form="editProfile" name="father_mobile_no" class="form-control" value="{{session['father_mobile_no'] or '' }}" placeholder='Enter mobile number'>
+        <input type="text" form="editProfile" name="father_mobile_no" class="form-control" value="{{session['father_mobile_no'] or '' }}" placeholder='Enter mobile number *'>
       </div>
     </div>
 
     <div class="profile-info-row">
       <div class="profile-info-name"> Email </div>
       <div class="profile-info-value">
-        <input type="text" form="editProfile" name="father_email" class="form-control" value="{{session['father_email'] or '' }}" placeholder='Enter email'>
+        <input type="text" form="editProfile" name="father_email" class="form-control" value="{{session['father_email'] or '' }}" placeholder='Enter email *'>
       </div>
     </div>
   </div>
@@ -232,7 +231,7 @@
   <div class="profile-info-row">
     <div class="profile-info-name"> Name </div>
     <div class="profile-info-value">
-      <input type="text" form="editProfile" name="mother_name" class="form-control" value="{{session['mother_name'] or '' }}"  placeholder='Enter name'>
+      <input type="text" form="editProfile" name="mother_name" class="form-control" value="{{session['mother_name'] or '' }}"  placeholder='Enter name *'>
     </div>
   </div>
 
@@ -240,21 +239,21 @@
   <div class="profile-info-row">
     <div class="profile-info-name"> Occupation </div>
     <div class="profile-info-value">
-      <input type="text" form="editProfile" name="mother_occupation" class="form-control" value="{{session['mother_occupation'] or '' }}" placeholder='Enter occupation'>
+      <input type="text" form="editProfile" name="mother_occupation" class="form-control" value="{{session['mother_occupation'] or '' }}" placeholder='Enter occupation *'>
     </div>
   </div>
 
   <div class="profile-info-row">
     <div class="profile-info-name"> Mobile No. </div>
     <div class="profile-info-value">
-      <input type="text" form="editProfile" name="mother_mobile_no" class="form-control" value="{{session['mother_mobile_no'] or '' }}" placeholder='Enter mobile number'>
+      <input type="text" form="editProfile" name="mother_mobile_no" class="form-control" value="{{session['mother_mobile_no'] or '' }}" placeholder='Enter mobile number *'>
     </div>
   </div>
 
   <div class="profile-info-row">
     <div class="profile-info-name"> Email </div>
     <div class="profile-info-value">
-      <input type="text" form="editProfile" name="mother_email" class="form-control" value="{{session['mother_email'] or '' }}" placeholder='Enter mobile number'>
+      <input type="text" form="editProfile" name="mother_email" class="form-control" value="{{session['mother_email'] or '' }}" placeholder='Enter mobile number *'>
     </div>
   </div>
 </div>
@@ -433,10 +432,13 @@
   }
 </style>
 
-<div class="space-20"></div>
-
-<div class="row" id="academic_details" style='display: none;'>
+{% if session["user_type"] == "mentee" %}
+<div id="academic_details" style='display: none;'>
+  <div class="space-20"></div>
+<h2 style='text-align: center; margin-top: 20px;'>Mentee Grade Table</h2>
+<div class='line'></div>
   <div class="col-xs-12 col-sm-3 center">
+    
     <div>
       <head>
         <meta charset="UTF-8">
@@ -472,446 +474,46 @@
                 cursor: pointer;
             }
 
-            .button-container {
-              text-align: center;
-              margin: 20px;
-          }
+          .form {
+            max-width: 100%;
+            padding: 5px; 
+            border: 1px solid #ccc; 
+            border-radius: 5px; 
+        }
+
+        .form1 {
+          max-width: 80%;
+          max-height: 30px;
+          padding: 5px;
+          border: 1px solid #ccc; 
+          border-radius: 5px; 
+      }
+        
+        .form::placeholder {
+            color: #999;
+        }
+
+        .form1::placeholder {
+          color: #999;
+      }
+
+        body {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          margin: 0;
+      }
+
+      h4 {
+          display: flex;
+      }
         </style>
     </head>
     <body>
-        <h2>Grade Table</h2>
-        <!-- Table for Semester 1 -->
-        <h3>Semester 1</h3>
-        <table id="semester1">
-            <thead>
-                <tr>
-                    <th>Sr. No.</th>
-                    <th>Subject</th>
-                    <th>Marks in IA (Avg)</th>
-                    <th>Marks in Semester</th>
-                    <th>Attempt 1</th>
-                    <th>Attempt 2</th>
-                    <th>Attempt 3</th>
-                    <th>Attempt 4</th>
-                    <th>Attempt 5</th>
-                    <th>Attempt 6</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Default rows (at least 5) -->
-                <tr>
-                    <td>1</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="button-container">
-          <button class="add-row-button" onclick="addRow('semester1')">Add Row</button>
-          <button class="delete-row-button" onclick="deleteRow(this, 'semester1')">Delete Row</button>
-          </div>
-
-        <h3>Semester 2</h3>
-        <table id="semester2">
-            <thead>
-                <tr>
-                    <th>Sr. No.</th>
-                    <th>Subject</th>
-                    <th>Marks in IA (Avg)</th>
-                    <th>Marks in Semester</th>
-                    <th>Attempt 1</th>
-                    <th>Attempt 2</th>
-                    <th>Attempt 3</th>
-                    <th>Attempt 4</th>
-                    <th>Attempt 5</th>
-                    <th>Attempt 6</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Default rows (at least 5) -->
-                <tr>
-                    <td>1</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="button-container">
-          <button class="add-row-button" onclick="addRow('semester2')">Add Row</button>
-          <button class="delete-row-button" onclick="deleteRow(this, 'semester2')">Delete Row</button>
-          </div>
-
-        <h3>Semester 3</h3>
-        <table id="semester3">
-            <thead>
-                <tr>
-                    <th>Sr. No.</th>
-                    <th>Subject</th>
-                    <th>Marks in IA (Avg)</th>
-                    <th>Marks in Semester</th>
-                    <th>Attempt 1</th>
-                    <th>Attempt 2</th>
-                    <th>Attempt 3</th>
-                    <th>Attempt 4</th>
-                    <th>Attempt 5</th>
-                    <th>Attempt 6</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Default rows (at least 5) -->
-                <tr>
-                    <td>1</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="button-container">
-          <button class="add-row-button" onclick="addRow('semester3')">Add Row</button>
-          <button class="delete-row-button" onclick="deleteRow(this, 'semester3')">Delete Row</button>
-          </div>
-
-        <h3>Semester 4</h3>
-        <table id="semester4">
-            <thead>
-                <tr>
-                    <th>Sr. No.</th>
-                    <th>Subject</th>
-                    <th>Marks in IA (Avg)</th>
-                    <th>Marks in Semester</th>
-                    <th>Attempt 1</th>
-                    <th>Attempt 2</th>
-                    <th>Attempt 3</th>
-                    <th>Attempt 4</th>
-                    <th>Attempt 5</th>
-                    <th>Attempt 6</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Default rows (at least 5) -->
-                <tr>
-                    <td>1</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="button-container">
-          <button class="add-row-button" onclick="addRow('semester4')">Add Row</button>
-          <button class="delete-row-button" onclick="deleteRow(this, 'semester4')">Delete Row</button>
-          </div>
-        
-          <h3>Semester 5</h3>
-        <table id="semester5">
-            <thead>
-                <tr>
-                    <th>Sr. No.</th>
-                    <th>Subject</th>
-                    <th>Marks in IA (Avg)</th>
-                    <th>Marks in Semester</th>
-                    <th>Attempt 1</th>
-                    <th>Attempt 2</th>
-                    <th>Attempt 3</th>
-                    <th>Attempt 4</th>
-                    <th>Attempt 5</th>
-                    <th>Attempt 6</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Default rows (at least 5) -->
-                <tr>
-                    <td>1</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-            </tbody>
-        </table>
-        
-        <div class="button-container">
-          <button class="add-row-button" onclick="addRow('semester5')">Add Row</button>
-          <button class="delete-row-button" onclick="deleteRow(this, 'semester5')">Delete Row</button>
-          </div>
-        
-        <h3>Semester 6</h3>
+      <form method="POST" action="{{ url_for('academicChanges') }}" id="academicChanges">
+        <h4>Semester <input type="text" name="sem" placeholder = 'Enter semester' class = 'form1'></h4>
+        <input type="hidden" id="row-count" name="row-count" value="5">
         <table>
             <thead>
                 <tr>
@@ -919,287 +521,77 @@
                     <th>Subject</th>
                     <th>Marks in IA (Avg)</th>
                     <th>Marks in Semester</th>
-                    <th>Attempt 1</th>
                     <th>Attempt 2</th>
                     <th>Attempt 3</th>
                     <th>Attempt 4</th>
-                    <th>Attempt 5</th>
-                    <th>Attempt 6</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Default rows (at least 5) -->
+                <!-- Rows generated dynamically -->
+                <!-- Use a loop to generate rows with unique names -->
+                {% for i in range(5) %}
                 <tr>
-                    <td>1</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
+                    <td>{{ i + 1 }}</td>
+                    <td><input type="text" name="subject_{{ i }}" class="form" placeholder='Enter subject {{ i + 1 }}'></td>
+                    <td><input type="text" name="marks_ia_{{ i }}" class="form" placeholder='Enter marks'></td>
+                    <td><input type="text" name="marks_sem_{{ i }}" class="form" placeholder='Enter marks'></td>
+                    <td><input type="text" name="attempt2_{{ i }}" class="form" placeholder='Enter marks'></td>
+                    <td><input type="text" name="attempt3_{{ i }}" class="form" placeholder='Enter marks'></td>
+                    <td><input type="text" name="attempt4_{{ i }}" class="form" placeholder='Enter marks'></td>
                 </tr>
-                <tr>
-                    <td>2</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
-
         <div class="button-container">
-          <button class="add-row-button" onclick="addRow('semester6')">Add Row</button>
-          <button class="delete-row-button" onclick="deleteRow(this, 'semester6')">Delete Row</button>
+          <button class="add-row-button" onclick="addRow()">Add Row</button>
+          <button class="delete-row-button" onclick="deleteRow()">Delete Row</button>
           </div>
-        
-        <h3>Semester 7</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Sr. No.</th>
-                    <th>Subject</th>
-                    <th>Marks in IA (Avg)</th>
-                    <th>Marks in Semester</th>
-                    <th>Attempt 1</th>
-                    <th>Attempt 2</th>
-                    <th>Attempt 3</th>
-                    <th>Attempt 4</th>
-                    <th>Attempt 5</th>
-                    <th>Attempt 6</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Default rows (at least 5) -->
-                <tr>
-                    <td>1</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="button-container">
-          <button class="add-row-button" onclick="addRow('semester7')">Add Row</button>
-          <button class="delete-row-button" onclick="deleteRow(this, 'semester7')">Delete Row</button>
-          </div>
-
-        <h3>Semester 8</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Sr. No.</th>
-                    <th>Subject</th>
-                    <th>Marks in IA (Avg)</th>
-                    <th>Marks in Semester</th>
-                    <th>Attempt 1</th>
-                    <th>Attempt 2</th>
-                    <th>Attempt 3</th>
-                    <th>Attempt 4</th>
-                    <th>Attempt 5</th>
-                    <th>Attempt 6</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Default rows (at least 5) -->
-                <tr>
-                    <td>1</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-            </tbody>
-        </table>
-        
-        <div class="button-container">
-          <button class="add-row-button" onclick="addRow('semester8')">Add Row</button>
-          <button class="delete-row-button" onclick="deleteRow(this, 'semester8')">Delete Row</button>
-        </div>
+        <input class="btn btn-outline-success" type="submit" value="Submit">
+    </form>
+    
+    {% endif %}
 
         <script>
-          function addRow(tableId) {
-            const table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
-            const rowCount = table.rows.length;
-            const newRow = table.insertRow(rowCount);
-    
-                const cell1 = newRow.insertCell(0);
-                const cell2 = newRow.insertCell(1);
-                const cell3 = newRow.insertCell(2);
-                const cell4 = newRow.insertCell(3);
-    
-                cell1.textContent = rowCount + 1;
-                cell2.innerHTML = '<input type="text">';
-                cell3.innerHTML = '<input type="text">';
-                cell4.innerHTML = '<input type="text">';
-    
-                // Add input fields for attempts 1-6
-                for (let i = 0; i < 6; i++) {
-                    const attemptCell = newRow.insertCell();
-                    attemptCell.innerHTML = '<input type="text">';
-                }
-            }
-            function deleteRow(button, tableId) {
-              const row = button.parentNode.parentNode;
-              const table = document.getElementById(tableId);
-              const lastRowIndex = table.rows.length - 1;
-          
-              if (lastRowIndex > 0) {
-                  table.deleteRow(lastRowIndex);
-              }
+          function addRow() {
+            const rowCountInput = document.getElementById('row-count');
+            let rowCount = parseInt(rowCountInput.value);
+        
+            const table = document.querySelector('table tbody');
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td>${rowCount + 1}</td>
+                <td><input type="text" name="subject_${rowCount}" class="form" placeholder="Enter subject ${rowCount + 1}"></td>
+                <td><input type="text" name="marks_ia_${rowCount}" class="form" placeholder="Enter marks"></td>
+                <td><input type="text" name="marks_sem_${rowCount}" class="form" placeholder="Enter marks"></td>
+                <td><input type="text" name="attempt2_${rowCount}" class="form" placeholder="Enter marks"></td>
+                <td><input type="text" name="attempt3_${rowCount}" class="form" placeholder="Enter marks"></td>
+                <td><input type="text" name="attempt4_${rowCount}" class="form" placeholder="Enter marks"></td>
+            `;
+        
+            table.appendChild(newRow);
+        
+            // Increment the row count and update the hidden input field
+            rowCount++;
+            rowCountInput.value = rowCount;
+        }
+        function deleteRow() {
+          const rowCountInput = document.getElementById('row-count');
+          let rowCount = parseInt(rowCountInput.value);
+      
+          if (rowCount > 0) {
+              // Decrement the row count
+              rowCount--;
+      
+              // Update the hidden input field
+              rowCountInput.value = rowCount;
+      
+              // Find the table's tbody
+              const table = document.querySelector('table tbody');
+      
+              // Remove the last row
+              table.removeChild(table.lastElementChild);
           }
+      }      
           </script>
     </div>
   </div>

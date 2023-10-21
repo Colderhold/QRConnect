@@ -12,6 +12,7 @@ import qrcode
 from flask import Flask, render_template, send_file
 from io import BytesIO
 import qrcode
+import pandas as pd
 
 app = Flask(__name__)
 
@@ -113,8 +114,8 @@ def registerUser():
         username = request.form.get("username")
         password = request.form.get("password")
         email = request.form.get("email")
-        prn_num = request.form.get("prn_num")
-        dob = request.form.get("dob")
+        prn_num = request.form.get("")
+        dob = request.form.get("")
         year = request.form.get("")
         mobile_no = request.form.get("")
         address = request.form.get("")
@@ -157,7 +158,16 @@ def menteeHome():
 def resources():
     resources_data = Resource.query.filter_by().all()
     NUMBER_OF_RESOURCES = len(resources_data)
-    return render_template("resources.html", resources_data= resources_data)
+    return render_template("resources.html", resources_data = resources_data)
+
+@app.route("/deleteResource/<int:id>", methods=["POST"])
+def deleteResource(id):
+    # Fetch the resource by its ID and delete it
+    resource = Resource.query.get(id)
+    if resource:
+        db.session.delete(resource)
+        db.session.commit()
+    return redirect(url_for('resources'))
 
 @app.route("/network", methods=["GET", "POST"])
 def network():
@@ -215,8 +225,7 @@ def profileChanges():
         user_data.ssc = session["ssc"] = request.form.get("ssc")
         user_data.hsc = session["hsc"] = request.form.get("hsc")
         user_data.cet_jee = session["cet_jee"] = request.form.get("cet_jee")
-        user_data.linkedin_pro = session["linkedin_pro"] = request.form.get("linkedin_pro")
-
+        user_data.linkedin_pro = session["linkedin_pro"] = request.form.get("linkedin_pro")        
     else:
         user_data = Mentor.query.filter_by(username=session.get("username")).one()
         user_data.meetStudents = session["meetStudents"] = True if request.form.get("meet_students") == "on" else False
@@ -270,23 +279,105 @@ def scanQR():
     
     return render_template("scan_qr.html")
 
+
+@app.route("/academicChanges", methods=["POST"])
+def academicChanges():
+    if session.get("user_type") == "mentee":
+        username = session.get('username')
+        
+        # Retrieve the total number of rows from the form
+        total_rows = int(request.form.get('row-count'))
+        all_rows_filled = True
+        user_data_list = []
+
+        try:
+            # Iterate through the rows and retrieve data
+            for i in range(total_rows):
+                # Do not assign a value to 'id', it's an auto-incremented primary key
+                sem = request.form.get('sem')
+                subject = request.form.get(f'subject_{i}')
+                marks_ia = request.form.get(f'marks_ia_{i}')
+                marks_sem = request.form.get(f'marks_sem_{i}')
+                attempt2 = request.form.get(f'attempt2_{i}')
+                attempt3 = request.form.get(f'attempt3_{i}')
+                attempt4 = request.form.get(f'attempt4_{i}')
+                
+                # Check if any of the fields in the row are empty
+                if not subject or not marks_ia or not marks_sem:
+                    all_rows_filled = False
+                    flash("Error: Please fill in all fields for each row.")
+                    break  # Exit the loop if any row is incomplete
+
+                # Create a new Mentee_Grades instance
+                user_data1 = Mentee_Grades(
+                    username=username,
+                    sem=sem,
+                    subject=subject,
+                    marks_ia=marks_ia,
+                    marks_sem=marks_sem,
+                    attempt2=attempt2,
+                    attempt3=attempt3,
+                    attempt4=attempt4)
+                user_data_list.append(user_data1)
+            # Check if all rows are filled before committing
+            if all_rows_filled:
+               for user_data1 in user_data_list:
+                  db.session.add(user_data1)
+               db.session.commit()
+               flash("Grades have been added!")
+        except Exception as e:
+            flash("Error: An error occurred while saving data: " + str(e))
+            db.session.rollback()
+    else:
+        flash("Error: User is not a mentee")
+
+    return redirect(url_for('editProfile'))
+
+
+@app.route('/mentee', methods=['GET'])
+def mentee():
+    mentor_username = session.get('username')  # Get the mentor's username from the session
+
+    # Fetch the usernames of mentees assigned to the mentor
+    mentee_usernames = [record.mentee for record in Assigned_Mentee.query.with_entities(Assigned_Mentee.mentee)]
+    
+    # Fetch all records from the assigned_mentees table for the specific mentor
+    assigned_mentees = Assigned_Mentee.query.filter_by(mentor=mentor_username).all()
+    
+    mentee_names = [mentee.mentee for mentee in assigned_mentees]
+    
+    academic_details = Mentee_Grades.query.filter(Mentee_Grades.username.in_(mentee_usernames)).all()
+    # Fetch resources corresponding to the mentees in the mentee_usernames list
+    resources_data = Resource.query.filter(Resource.username.in_(mentee_usernames)).all()
+
+    return render_template('mentee.html', mentees=mentee_names, resources_data=resources_data, academic_details=academic_details)
+
 @app.route("/addResource", methods=["POST"])
 def addResource():
+    username = session.get('username')
     title = request.form.get("resource_title")
     description = request.form.get("resource_description")
-    file = request.files['file'] #this gets the file
+    file = request.files['file']  # this gets the file
+    date_uploaded = datetime.utcnow()  # Get the current date and time
+
+    # Define the target directory for saving files
+    target_dir = os.path.join(app.root_path, 'static', 'resources')
+
+    # Ensure the target directory exists, and create it if it doesn't
+    os.makedirs(target_dir, exist_ok=True)
+
+    # Check if a file was selected
     if not file.filename == '':
         filename = secure_filename(file.filename)
-        resource_path = os.path.join(app.root_path, 'static/resources', filename)
+        resource_path = os.path.join(target_dir, filename)
         file.save(resource_path)
-
     else:
-        #if they havent added a resource, flash them a message change this later to client side valudation
+        # If they haven't added a resource, flash them a message
         flash("Please select a file to add as a resource")
         return redirect(url_for('resources'))
 
     NUMBER_OF_RESOURCES = len(Resource.query.filter_by().all())
-    new_resource = Resource(id=NUMBER_OF_RESOURCES + 1, title=title, description=description, file=filename)
+    new_resource = Resource(id=NUMBER_OF_RESOURCES + 1, username=username, title=title, description=description, file=filename, date_uploaded=date_uploaded)
     db.session.add(new_resource)
     db.session.commit()
     flash("Resource has been added!")

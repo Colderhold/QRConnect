@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-<h2 style="text-align:center;">Network Below</h2>
+<h2 style="text-align:center;">Network</h2>
 <p style="text-align:center;">Here is a list of all mentees who have signed up to the platform</p>
 <form action="{{ url_for('network') }}" method="post" style="text-align:center; padding-bottom: 20px;">
 
@@ -36,7 +36,7 @@
             <div class="flip-card-inner">
               <div class="flip-card-front" style="background-color: #006666;">
                 {% set file_path = ["img/", mentee.profile_pic]|join %}
-                <img src="/static/img/mentee_pic.png" alt="Avatar" style="max-height:230px;width:100%;padding:10px;">
+                <img src="{{ url_for('static', filename='img/' + mentee.profile_pic) }}" alt="Avatar" style="max-height:230px;width:100%;padding:10px;">
                 <p style="color:black;">{{mentee.fname}} {{mentee.lname}}</p>
               </div>
               <div class="flip-card-back" style="background-color: #006666;">
@@ -61,7 +61,7 @@
             </div>
             <div class="modal-body">
               <center>
-                          <img src="/static/img/mentee_pic.png" alt="Avatar" name="aboutme" width="140" height="140" border="0" style="border-radius: 50%;">
+                          <img src="{{ url_for('static', filename='img/' + mentee.profile_pic) }}" alt="Avatar" name="aboutme" width="140" height="140" border="0" style="border-radius: 50%;">
                           <h3 class="media-heading">{{mentee.fname}} {{mentee.lname}}</h3>
                           <span><strong>Preferences: </strong></span>
                           {% if mentee.cv_help == true %}
@@ -105,7 +105,7 @@
             <div class="flip-card-inner">
               <div class="flip-card-front" style="background-color: #006666;">
                 {% set file_path = ["img/", mentor.profile_pic]|join %}
-                <img src="/static/img/mentor_pic.png" alt="Avatar" style="max-height:200px;width:100%;padding:10px;">
+                <img src="{{ url_for('static', filename='img/' + mentor.profile_pic) }}" alt="Avatar" style="max-height:200px;width:100%;padding:10px;">
                 <p style="color:black;">{{mentor.fname}} {{mentor.lname}}</p>
               </div>
               <div class="flip-card-back" style="background-color: #006666;">
@@ -130,7 +130,7 @@
             </div>
             <div class="modal-body">
               <center>
-                          <img src="/static/img/logo.png" alt="Avatar" name="aboutme" width="140" height="140" border="0" style="border-radius: 50%;">
+                          <img src="{{ url_for('static', filename='img/' + mentor.profile_pic) }}" alt="Avatar" name="aboutme" width="140" height="140" border="0" style="border-radius: 50%;">
                           <h3 class="media-heading">{{mentor.fname}} {{mentor.lname}}</h3>
                           <span><strong>Preferences: </strong></span>
                           {% if mentor.cv_help == true %}
