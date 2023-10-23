@@ -1,7 +1,7 @@
 {% extends "home_layout.html" %}
 
 {% block title %}
-    Home {{ name }}
+    Mentee Details {{ name }}
 {% endblock %}
 
 {% block body %}
@@ -60,7 +60,7 @@
     <thead>
         <tr>
             <th>Mentee Name</th>
-            <th>Resources</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -69,11 +69,19 @@
             <td>{{ mentees[i] }}</td>
             <td>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#resourcesModal{{ i }}">
-                    Open Resource preview
+                    Open Resource Preview
+                </button>
+
+                <button type="button" class="btn btn-primary" onclick="window.location.href = '{{ url_for('view_profile', username=mentees[i]) }}'">
+                    View Mentee Profile
                 </button>
 
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#academicModal{{ i }}">
                     View Academic Details
+                </button>
+
+                <button type="button" class="btn btn-danger delete-mentee-button" data-toggle="modal" data-target="#deleteMenteeModal{{ i }}">
+                    Delete Mentee
                 </button>
             </td>
         </tr>
@@ -112,6 +120,27 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="deleteMenteeModal{{ i }}" tabindex="-1" role="dialog" aria-labelledby="deleteMenteeModalLabel{{ i }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteMenteeModalLabel{{ i }}">Delete Mentee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete {{ mentees[i] }}?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <a href="{{ url_for('delete_mentee', username=mentees[i]) }}" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 {% set mentee_marks = academic_details | selectattr("username", "equalto", mentees[i]) %}
     <div class="modal fade" id="academicModal{{ i }}" tabindex="-1" role="dialog" aria-labelledby="academicModalLabel{{ i }}" aria-hidden="true">
@@ -187,5 +216,5 @@
 {% endblock %}
 
 {% block right_button %}
-<button type="button" class="btn btn-outline-danger" onclick="window.location.href='{{ url_for('editProfile') }}';">Edit Profile</button>
+<button style = 'margin-right: 10px;' type="button" class="btn btn-outline-danger" onclick="window.location.href='{{ url_for('editProfile') }}';">Edit Profile</button>
 {% endblock %}

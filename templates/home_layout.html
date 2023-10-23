@@ -41,6 +41,9 @@
     <div class="wrapper">
         <!-- Sidebar Holder -->
         <nav id="sidebar">
+          <button class="btn btn-light toggle-sidebar" id="sidebarCollapse">
+            <i class="fas fa-arrow-left"></i>
+        </button>
             <div class="sidebar-header">
                 <h3>QRConnect</h3>
             </div>
@@ -86,15 +89,15 @@
                     <i class="fas fa-align-left"></i>
                     <span></span>
                 </button>
-                  <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                      <i class="fas fa-align-justify"></i>
-                  </button>
-
+                <button class="btn btn-dark d-inline-block d-lg-none ml-auto btn-toggle-collapse" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <i class="fas fa-align-justify"></i>
+              </button>
+              
                   <div class="collapse navbar-collapse" id="navbarSupportedContent">
                       <ul class="nav navbar-nav ml-auto">
                         {% block right_button %}
                         {% endblock %}
-                          <button type="button" class="btn btn-danger" onclick="window.location.href='{{ url_for('log_out') }}';">Log Out</button>
+                          <button type="button" class="btn btn-danger btn-logout" onclick="window.location.href='{{ url_for('log_out') }}';">Log Out</button>
                       </ul>
                   </div>
               </div>
@@ -133,21 +136,48 @@
       <!-- jQuery Custom Scroller CDN -->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 
-      <script type="text/javascript">
-          $(document).ready(function () {
-              $("#sidebar").mCustomScrollbar({
-                  theme: "minimal"
-              });
-
-              $('#sidebarCollapse').on('click', function () {
-                  $('#sidebar, #content').toggleClass('active');
-                  $('.collapse.in').toggleClass('in');
-                  $('a[aria-expanded=true]').attr('aria-expanded', 'false');
-              });
-
-          });
 
 
-      </script>
+      <script>
+        // Function to toggle the collapse element
+        function toggleCollapse() {
+            $('#navbarSupportedContent').collapse('toggle');
+        }
+    
+        // Toggle the collapse element when the button is clicked
+        $('.btn-toggle-collapse').on('click', function () {
+            toggleCollapse();
+        });
+    </script>
+    
+          <script type="text/javascript">
+            $(document).ready(function () {
+                $("#sidebar").mCustomScrollbar({
+                    theme: "minimal"
+                });
+        
+                // Function to toggle the sidebar
+                function toggleSidebar() {
+                    $('#sidebar, #content').toggleClass('active');
+                    $('.collapse.in').toggleClass('in');
+                    $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+                }
+        
+                // Toggle sidebar on button click
+                $('#sidebarCollapse, .toggle-sidebar').on('click', function () {
+                    toggleSidebar();
+                });
+        
+                // Close the sidebar when the window is resized (optional)
+                $(window).resize(function () {
+                    if ($(window).width() <= 768) {
+                        if ($('#sidebar').hasClass('active')) {
+                            toggleSidebar();
+                        }
+                    }
+                });
+            });
+        </script>
+      
   </body>
 </html>

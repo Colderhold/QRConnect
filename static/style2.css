@@ -165,13 +165,21 @@ a.article:hover {
 
 @media (max-width: 768px) {
     #sidebar {
-        margin-left: -250px;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: -100%; /* Move the sidebar off the screen */
+        z-index: 999;
+        background: #004c4c;
+        color: #fff;
+        transition: left 0.5s; /* Add a transition for smoother animation */
     }
     #sidebar.active {
-        margin-left: 0;
+        left: 0; /* Slide in the sidebar from the left */
     }
-    #content {
-        width: 100%;
+    body {
+        display: none; /* Hide the content */
     }
     #content.active {
         width: calc(100% - 250px);
@@ -179,22 +187,23 @@ a.article:hover {
     #sidebarCollapse span {
         display: none;
     }
+    .nav.navbar-nav.ml-auto .btn-logout {
+        margin-top: 10px; /* Adjust this value to your preference */
+    }
+
+    .user_card {
+        width: 90%; /* Adjust the width to your preference */
+        margin: 0 auto;
+    }
+
+    .form_container {
+        padding: 10px; /* Adjust the padding for the form container */
+    }
+
+    .login_btn {
+        font-size: 1.2em; /* Adjust the font size of the login button */
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 .profile-user-info {
@@ -212,6 +221,12 @@ a.article:hover {
 .profile-info-value {
     display: table-cell;
     border-top: 1px dotted #D5E4F1
+}
+
+.toggle-sidebar {
+    position: absolute;
+    top: 10px;
+    left: 10px;
 }
 
 .profile-info-name {

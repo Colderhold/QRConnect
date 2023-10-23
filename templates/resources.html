@@ -1,7 +1,7 @@
 {% extends "home_layout.html" %}
 
 {% block title %}
-    Home {{name}}
+    Resources {{name}}
 {% endblock %}
 
 {% block body %}
@@ -37,7 +37,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" form="addResource" class="btn btn-primary">Submit Resource</button>
+        <button type="submit" form="addResource" class="btn btn-primary btn-block">Submit Resource</button>
       </div>
     </div>
   </div>
@@ -95,7 +95,7 @@
         </iframe>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary d-md-none" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
@@ -131,5 +131,5 @@
 {% endblock %}
 
 {% block right_button %}
-<button type="button" class="btn btn-outline-danger" onclick="window.location.href='{{ url_for('editProfile') }}';">Edit Profile</button>
+<button style = 'margin-right: 10px;' type="button" class="btn btn-outline-danger d-md-inline" onclick="window.location.href='{{ url_for('editProfile') }}';">Edit Profile</button>
 {% endblock %}

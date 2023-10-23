@@ -46,7 +46,7 @@ class Mentee(db.Model):
   mother_email = db.Column(db.String(255), nullable=False)
   hobbies = db.Column(db.String(255), nullable=False)
   strengths = db.Column(db.String(255), nullable=False)
-  weakness = db.Column(db.Integer(), nullable=False)
+  weakness = db.Column(db.String(255), nullable=False)
   goals = db.Column(db.String(255), nullable=False)
   ssc = db.Column(db.Float(), nullable=False)
   hsc = db.Column(db.Float(), nullable=False)
@@ -84,5 +84,3 @@ class Assigned_Mentee(db.Model):
    __tablename__ = "assigned_mentees"
    mentee = db.Column(db.String(255), primary_key = True)
    mentor = db.Column(db.String(255), nullable=False)
-   batch = db.Column(db.String(255), nullable=False)
-   email = db.Column(db.String(255), nullable=False)

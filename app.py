@@ -156,7 +156,8 @@ def menteeHome():
 
 @app.route("/resources", methods=["GET"])
 def resources():
-    resources_data = Resource.query.filter_by().all()
+    username = session.get('username')
+    resources_data = Resource.query.filter_by(username=username).all()
     NUMBER_OF_RESOURCES = len(resources_data)
     return render_template("resources.html", resources_data = resources_data)
 
@@ -183,6 +184,44 @@ def network():
     if (not mentee_data) and (not mentor_data):
         flash("I hope you enjoy looking at a blank screen...")
     return render_template("network.html",  mentee_data = mentee_data, mentor_data = mentor_data)
+
+@app.route('/changePassword', methods=['GET', 'POST'])
+def change_password():
+    if request.method == 'POST':
+        username = session.get('username')
+        old_password = request.form.get('old_password')
+        new_password = request.form.get('new_password')
+
+        # Query the Mentee table for the specific user
+        mentee = Mentee.query.filter_by(username=username).first()
+
+        if mentee:
+            if mentee.password == old_password:
+                # The old password is correct, update the password for the user
+                mentee.password = new_password
+                db.session.commit()
+                flash('Password successfully changed')
+                return redirect(url_for('editProfile'))
+            else:
+                flash('Error: Old password is incorrect')
+        
+    # Render the "Change Password" page for GET requests
+    return render_template('change_password.html')
+
+@app.route('/deleteMentee/<username>', methods=['GET', 'POST'])
+def delete_mentee(username):
+    # Handle the deletion of the mentee with the given username
+    mentee = Assigned_Mentee.query.filter_by(mentee=username).first()
+
+    if mentee:
+        # Delete the mentee from your database
+        db.session.delete(mentee)
+        db.session.commit()
+        flash(f'Mentee {username} has been deleted', 'success')
+    else:
+        flash(f'Mentee {username} not found', 'error')
+
+    return redirect(url_for('mentee'))
 
 @app.route("/mentorHome", methods=["GET"])
 def mentorHome():
@@ -246,9 +285,10 @@ def profileChanges():
         session["pic"] = "img/" + str(filename)
         flash("Profile picture has been uploaded")
     
+    username = session.get('username')
     qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=15, border=5)
     filename = f"static/img/qrcode_{session['username']}.png"
-    profile_data = f"Name: {session['fname']} {session['lname']}\nUsername: {session['username']}\nPRN NO: {session['prn_num']}\nBranch: {session['branch']}\nBatch: {session['batch']}\nCollege Email: {session['email']}\nDOB: {session['dob']}\nBlood Group: {session['blood_grp']}\nMobile Number: {session['mobile_no']}\nAddress: {session['address']}"
+    profile_data = f'http://127.0.0.1:5000//verify_mentor_credentials/{username}'
     qr.add_data(profile_data)
     qr.make(fit=True)
 
@@ -265,19 +305,38 @@ def profileChanges():
     flash("Changes have been saved to the database")
     return render_template("editProfile.html", timestamp=timestamp)
 
-@app.route("/scanQR", methods=["GET", "POST"])
-def scanQR():
-    if request.method == "POST":
-        entered_password = request.form.get("password")
-        correct_password = session.get("qr_token")
 
-        if entered_password == correct_password:
-            # Password is correct, display the information
-            return render_template("profile_info.html")
+@app.route('/view_profile/<username>', methods=['GET', 'POST'])
+def view_profile(username):
+    mentee = Mentee.query.filter_by(username=username).first()
+    return render_template('viewProfile.html', mentee=mentee)
+
+
+@app.route('/verify_mentor_credentials/<username>', methods=['GET', 'POST'])
+def verify_mentor_credentials(username):
+    mentee_username = username
+    if request.method == 'POST':
+        mentor_username = request.form.get('mentor_username')
+        mentor_password = request.form.get('mentor_password')
+        
+        # Check if mentor exists in the database with the provided credentials
+        mentor = Mentor.query.filter_by(username=mentor_username, password=mentor_password).first()
+        
+        if mentor:
+            # Get the mentee and mentor usernames and update the assigned_mentees table
+            mentor_username = mentor.username
+
+            try:# Update the assigned_mentees table
+                assignment = Assigned_Mentee(mentee=mentee_username, mentor=mentor_username)
+                db.session.add(assignment)
+                db.session.commit()
+                return redirect(url_for('view_profile', username=mentee_username))
+            except Exception as e:
+                flash("Error: Mentor already assigned to mentee")
         else:
-            flash("Incorrect password. Please try again.")
+            flash("Error: Invalid mentor credentials.")
     
-    return render_template("scan_qr.html")
+    return render_template('mentor_credentials_prompt.html')
 
 
 @app.route("/academicChanges", methods=["POST"])

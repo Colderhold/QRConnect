@@ -542,12 +542,13 @@
                 {% endfor %}
             </tbody>
         </table>
-        <div class="button-container">
-          <button class="add-row-button" onclick="addRow()">Add Row</button>
-          <button class="delete-row-button" onclick="deleteRow()">Delete Row</button>
-          </div>
         <input class="btn btn-outline-success" type="submit" value="Submit">
     </form>
+
+    <div class="button-container">
+      <button class="add-row-button" onclick="addRow()">Add Row</button>
+      <button class="delete-row-button" onclick="deleteRow()">Delete Row</button>
+      </div>
     
     {% endif %}
 
@@ -650,5 +651,6 @@
 {% endblock %}
 
 {% block right_button %}
-<button type="submit" form="editProfile" class="btn btn-outline-success">Save Changes</button>
+<button style = 'margin-right: 10px;' class="btn btn-outline-primary" onclick="window.location.href='{{ url_for('change_password') }}';">Change Password</button>
+<button style = 'margin-right: 10px;' type="submit" form="editProfile" class="btn btn-outline-success">Save Changes</button>
 {% endblock %}

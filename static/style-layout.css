@@ -1,0 +1,62 @@
+/* CSS for Sidebar and Content Layout */
+.wrapper {
+    display: flex;
+    width: 100%;
+}
+
+#sidebar {
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 999;
+    background: #004c4c;
+    color: #fff;
+    transition: all 0.3s;
+}
+
+#sidebar.active {
+    margin-left: -250px;
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+    background: #004c4c;
+}
+
+/* Rest of the sidebar styles... */
+
+#content {
+    width: calc(100% - 250px);
+    padding: 40px;
+    min-height: 100vh;
+    transition: all 0.3s;
+    position: relative;
+    top: 0;
+    right: 0;
+}
+
+#content.active {
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+        display: none; /* Hide the sidebar on small screens */
+    }
+    #sidebar.active {
+        margin-left: 0;
+        display: block; /* Show the sidebar when active on small screens */
+    }
+    #content {
+        width: 100%;
+    }
+    #content.active {
+        width: 100%;
+    }
+    #sidebarCollapse span {
+        display: none;
+    }
+}
